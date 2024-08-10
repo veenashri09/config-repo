@@ -2,6 +2,10 @@ server:
   port: 8082
 
 spring:
+  
+  kafka:
+    bootstrap-servers: localhost:9092
+  
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/transaction_service

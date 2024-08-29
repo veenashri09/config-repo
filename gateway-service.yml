@@ -1,23 +1,60 @@
 server:
   port: 8111
 
-spring:
-  cloud.gateway.mvc:
-    routesMap:
-      configRoute1:
-        uri: lb://account-service
-        predicates:
-          - Path=/bankingapp/api/accounts/**
-          - Method=GET,POST,PUT,DELETE
-        filters:
-          - StripPrefix=2
-      configRoute2:
-        uri: lb://transaction-service
-        predicates:
-          - Path=/bankingapp/api/transactions/**
-          - Method=GET,POST,PUT,DELETE
-        filters:
-          - StripPrefix=2
+spring:  
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[default]':
+            allowed-origins: "*"
+            allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+            allowed-headers: "*"
+            allow-credentials: true
+      routes:
+        - id: account-service
+          uri: lb://account-service
+          predicates:
+            - Path=/bankingapp/api/accounts/**
+            - Method=GET,POST,PUT,DELETE
+          filters:
+            - StripPrefix=2
+            - AuthenticationFilter
+
+        - id : transaction-service
+          uri: lb://transaction-service
+          predicates:
+            - Path=/bankingapp/api/transactions/**
+            - Method=GET,POST,PUT,DELETE
+          filters:
+            - StripPrefix=2
+            - AuthenticationFilter
+
+        - id: fund-transfer-service
+          uri: lb://fund-transfer-service
+          predicates:
+            - Path=/bankingapp/api/fund-transfers/**
+            - Method=GET,POST
+          filters:
+            - StripPrefix=2
+            - AuthenticationFilter
+
+        - id : notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/bankingapp/api/notifications/**
+            - Method=GET
+          filters:
+            - StripPrefix=2
+            - AuthenticationFilter
+
+        - id : auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/bankingapp/api/auth/**
+            - Method=GET,POST
+          filters:
+            - StripPrefix=2
 
 management:
   endpoints:

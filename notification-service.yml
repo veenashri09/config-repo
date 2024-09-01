@@ -16,7 +16,7 @@ logging:
   file:
     name: logs/notification.log
   level:
-    com.lowes.bankingapp: INFO
+    com.lowes.bankingapp.service: INFO
 
 management:
   endpoints:

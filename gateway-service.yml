@@ -12,31 +12,31 @@ spring:
             allowed-headers: "*"
             allow-credentials: true
       routes:
-        - id: account-service
+        - id: swagger-ui-accounts
           uri: lb://account-service
           predicates:
-            - Path=/bankingapp/api/accounts/**
+            - Path=/bankingapp/api/swagger/accounts/**
             - Method=GET,POST,PUT,DELETE
           filters:
-            - StripPrefix=2
+            - StripPrefix=3
             - AuthenticationFilter
 
-        - id : transaction-service
+        - id : swagger-ui-transactions
           uri: lb://transaction-service
           predicates:
-            - Path=/bankingapp/api/transactions/**
+            - Path=/bankingapp/api/swagger/transactions/**
             - Method=GET,POST,PUT,DELETE
           filters:
-            - StripPrefix=2
+            - StripPrefix=3
             - AuthenticationFilter
 
-        - id: fund-transfer-service
+        - id: swagger-ui-fund-transfers
           uri: lb://fund-transfer-service
           predicates:
-            - Path=/bankingapp/api/fund-transfers/**
+            - Path=/bankingapp/api/swagger/fund-transfers/**
             - Method=GET,POST
           filters:
-            - StripPrefix=2
+            - StripPrefix=3
             - AuthenticationFilter
 
         - id : notification-service
